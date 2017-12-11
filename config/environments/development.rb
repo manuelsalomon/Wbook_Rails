@@ -26,6 +26,18 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
+  config.middleware.insert_before 0, Rack::Cors do
+    allow do
+      # In development, we don't care about the origin.
+      origins '*'
+      # Reminder: On the following line, the 'methods' refer to the 'Access-
+      # Control-Request-Method', not the normal Request Method.
+      resource '*', headers: :any,
+                    methods: [:get, :post, :options, :delete, :put, :patch],
+                    credentials: true
+    end
+  end
+
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
