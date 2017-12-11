@@ -1,9 +1,15 @@
 class BooksController < ApplicationController
+  skip_before_action :authorize_request, only: %i[index show]
+
   def index
     books = Book.all
     render json: books, status: :ok
   end
 
+  def show
+    book = Book.find(params[:id])
+    render json: book, status: :ok
+  end
 
   def create
     book = Book.create!(create_params)
